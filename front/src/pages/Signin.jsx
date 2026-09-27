@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import ApiClient from '../apiClient/Interceptor';
+import ApiClient from '../apiClient/Interceptor.js';
+import {useNavigate} from "react-router-dom";
 
 const Signin = () => {
+    const  navigate=useNavigate();
     const [formData,setFormData]=useState({
         email:"",
         password:""
@@ -26,7 +28,9 @@ const Signin = () => {
             setLoading(true);
             const response=await ApiClient.post("/user/signin",formData);
             console.log(response.data);
-            console.log("signin successful");
+            console.log("sucess")
+            alert("signin successful");
+            navigate("/");
 
         }catch(error){
          console.log("signin failure");
@@ -35,12 +39,14 @@ const Signin = () => {
     }
   return (
     <div className='auth-container'>
-        <form onSubmit={handleSubmit}>
+        <h1>Signin</h1>
+        <form  className="auth-form" onSubmit={handleSubmit}>
             <label htmlFor='email'>Email</label>
-            <input type='email' name='email' placeholder='enter email' value={FormData.email} onChange={handleChange}/>
+            <input type='email' name='email' placeholder='enter email' value={formData.email} onChange={handleChange}/>
              <label htmlFor='password'>Password</label>
-            <input type='password' name='password' placeholder='enter password' value={FormData.password} onChange={handleChange}/>
+            <input type='password' name='password' placeholder='enter password' value={formData.password} onChange={handleChange}/>
             <button type='submit'>Signin</button>
+            
                </form>
       
     </div>

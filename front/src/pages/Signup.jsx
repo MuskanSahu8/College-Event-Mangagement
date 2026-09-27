@@ -48,7 +48,7 @@ const Signup = () => {
   return (
     <div className='auth-container'>
       <h2>Create Account</h2>
-      <form onSubmit={handleSubmit}>
+      <form  className="auth-form" onSubmit={handleSubmit}>
         <label htmlFor="text">Name:</label>
         <input type="name" id="name" placeholder='enter name' name="name" value={formData.name} onChange={handleChange} />
         <label htmlFor="email">Email:</label>

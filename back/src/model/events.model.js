@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
 const eventSchema =mongoose.Schema({
-    collegeName:{
-        type:String,
-        trim:true,
-        required:true,
-    },
     eventName:{
         type:String,
         required:true,
@@ -17,11 +12,13 @@ const eventSchema =mongoose.Schema({
         type:String,
         required:true,
     },
-     user: {
+    dept:{
+        type:String
+    },
+     createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true
-  }
+  },
 
 },
     {timestamps:true});

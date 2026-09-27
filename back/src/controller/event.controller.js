@@ -1,127 +1,170 @@
 import { Event } from "../model/events.model.js";
 
-const createEvent =async(req,res)=>{
-   try {
-     //fetch
-     const {collegeName,eventName,about,eventdate} =req.body;
-     //validate
-     if(!collegeName || !eventName|| !about|| !eventdate){
-         return res.status(400).json({
-            message:"all fields are required"
-         })
-     }
-     //create object
-     const events= await Event.create({
-        collegeName,
+// CREATE EVENT
+const createEvent = async (req, res) => {
+  try {
+    const { eventName, about, eventdate, dept } = req.body;
+
+    // validation
+    if (!eventName || !about || !eventdate) {
+      return res.status(400).json({
+        message: "all fields are required",
+      });
+    }
+
+    // create event
+    const event = await Event.create({
+      eventName,
+      about,
+      eventdate,
+      dept,
+      user: req.user._id,
+    });
+
+    return res.status(201).json({
+      message: "event created successfully",
+      event,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "cannot create event",
+      error: error.message,
+    });
+  }
+};
+
+
+// GET ALL EVENTS
+const getEvent = async (req, res) => {
+  try {
+    const events = await Event.find()
+      .populate("createdBy", "name email")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      message: "events fetched successfully",
+      events,
+    });
+  }catch (error) {
+  console.log("GET EVENTS ERROR:", error);
+
+  return res.status(500).json({
+    message: "cannot fetch events",
+    error: error.message,
+  });
+}
+};
+
+
+// GET EVENT BY ID
+const getEventById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const event = await Event.findById(id)
+    .populate("createdBy", "name email");
+
+    if (!event) {
+      return res.status(404).json({
+        message: "Event not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "event detail fetched successfully",
+      event,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "cannot fetch event",
+      error: error.message,
+    });
+  }
+};
+
+
+// UPDATE EVENT
+const updateEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      eventName,
+      about,
+      eventdate,
+      dept,
+    } = req.body;
+
+    const event = await Event.findOneAndUpdate(
+      {
+        _id: id,
+        user: req.user._id,
+      },
+      {
         eventName,
         about,
         eventdate,
-         user: req.user._id
-     })
-     res.status(200).json({
-        message:"event created successfully",
-        data:{
-         collegeName:events.collegeName,
-        eventName:events.eventName,
-        about:events.about,
-        eventdate:events.eventdate,
-        
-        }
-     })
-     
-   } catch (error) {
-    res.status(500).json({
-        message:"cannot create event",
-       error: error.message,
-    })
-   }
-}
+        dept,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-const getEvent = async(req,res)=>{
-    try{
-        const events= await Event.find({
-            user:req.user._id,
-        })
-        res.status(200).json({
-            message:"events fetched successfully",
-            events
-        })
-
-    }catch(error){
-        res.status(500).json({
-        message:"cannot fetch event",
-       error: error.message,
-    })
+    if (!event) {
+      return res.status(404).json({
+        message: "Event not found or you are not the owner",
+      });
     }
-}
-const getEventById = async(req,res)=>{
-    try{
-        const events= await Event.findById( {
-            _id:req.params.id,
-            user:req.user._id,
 
-        })
-         if (!events) {
-            return res.status(404).json({
-                message: "Event not found"
-            });
-        }
-        res.status(200).json({
-            message:"events fetched successfully",
-            events
-        })
+    return res.status(200).json({
+      message: "event updated successfully",
+      event,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "update failure",
+      error: error.message,
+    });
+  }
+};
 
-    }catch(error){
-          res.status(500).json({
-        message:"cannot fetch event",
-       error: error.message,
-    })
-    }
-}
-const  updateEvent =async(req,res)=>{
-    try{
-        //fethch
-        const {collegeName,eventName,about,eventdate}= req.body;
-// validate
-        const event =await Event.findOneAndUpdate({
-            _id:req.params.id,
-            user:req.user._id
-        },{
-        collegeName,eventName,about,eventdate},
-        {
-            new:true
-        }
-    )
-    if(!event){
-         res.status(500).json({
-            message:"update failure",
-         })
-    }
-    res.status(200).json({
-        message:"updated successful",
-        event:collegeName,eventName,about,eventdate
 
-    })
-    }catch(error){
-        res.status(500).json({
-            message:"update failure"
-        })
-    }
-}
-const deleteEvent = async(req,res)=>{
-    try{
-        await Event.findByIdAndDelete({
-            _id:req.params.id,
-            user:req.user._id,
-        })
-        res.status(200).json({
-            message:"delted successfully",
-        })
-    }catch(error){
-        res.status(500).json({
-            message:error.message
-        })
+// DELETE EVENT
+const deleteEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    const event = await Event.findOne({
+      _id: id,
+      user: req.user._id,
+    });
+
+    if (!event) {
+      return res.status(404).json({
+        message: "Event not found or you are not the owner",
+      });
     }
-}
-export {createEvent,getEvent, updateEvent, getEventById,deleteEvent};
+
+    await Event.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      message: "event deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "delete failure",
+      error: error.message,
+    });
+  }
+};
+
+
+export {
+  createEvent,
+  getEvent,
+  getEventById,
+  updateEvent,
+  deleteEvent,
+};
