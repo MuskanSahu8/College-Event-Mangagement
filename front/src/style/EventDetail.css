@@ -1,0 +1,607 @@
+
+.event-detail-page {
+  min-height: 100vh;
+  padding: 30px;
+  background: #f8f7ff;
+  color: #30284f;
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+.event-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.event-header-tag,
+.registration-tag {
+  color: #8066d9;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.event-detail-header h1 {
+  font-size: 27px;
+  margin: 10px 0;
+}
+
+.event-detail-header p {
+  color: #89849b;
+  font-size: 14px;
+}
+
+.event-back-btn {
+  background: white;
+  color: #7056cc;
+  border: 1px solid #e8e1ff;
+  border-radius: 9px;
+  padding: 12px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.event-back-btn:hover {
+  background: #eeeaff;
+}
+
+/* MAIN CARD */
+.event-main-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 5px 22px rgba(50, 40, 79, 0.06);
+}
+
+.event-banner {
+  width: 100%;
+  height: 350px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, #8066d9, #b8a5ed);
+}
+
+.event-banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-banner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 35px;
+  background: linear-gradient(
+    transparent 25%,
+    rgba(20, 15, 40, 0.75)
+  );
+  color: white;
+}
+
+.event-banner-overlay h2 {
+  font-size: 32px;
+  margin: 12px 0 0;
+}
+
+.event-banner-label {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  border-radius: 20px;
+  width: fit-content;
+  font-size: 12px;
+}
+
+.event-no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-placeholder {
+  text-align: center;
+  color: white;
+}
+
+.event-placeholder span {
+  font-size: 65px;
+}
+
+.event-placeholder h2 {
+  font-size: 30px;
+}
+
+.event-placeholder p {
+  opacity: 0.85;
+}
+
+/* CONTENT */
+.event-main-content {
+  padding: 30px;
+}
+
+.event-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.event-category {
+  color: #8066d9;
+  background: #eeeaff;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.event-title-row h2 {
+  font-size: 25px;
+  margin: 16px 0;
+}
+
+.event-status-label {
+  background: #e9f8ef;
+  color: #23844b;
+  padding: 9px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* ABOUT */
+.event-about-section {
+  margin-top: 15px;
+  padding: 22px;
+  background: #faf9ff;
+  border-radius: 12px;
+  border-left: 4px solid #8066d9;
+}
+
+.event-about-section h3 {
+  margin: 0 0 12px;
+}
+
+.event-about-section p {
+  color: #777187;
+  line-height: 1.8;
+  font-size: 14px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* INFORMATION */
+.event-info-heading {
+  margin: 30px 0 18px;
+  font-size: 20px;
+}
+
+.event-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.event-info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #faf9ff;
+  padding: 20px;
+  border: 1px solid #f0edfa;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.event-info-card:hover {
+  border-color: #b8a5ed;
+  transform: translateY(-3px);
+}
+
+.event-info-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eeeaff;
+  border-radius: 12px;
+  font-size: 23px;
+  flex-shrink: 0;
+}
+
+.event-info-card p {
+  color: #9690a5;
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+
+.event-info-card h4 {
+  font-size: 14px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* STUDENT ACTIONS */
+.event-student-actions {
+  margin-top: 30px;
+  padding: 25px;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #eeeaff, #f8f4ff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.event-student-actions h3 {
+  margin: 0 0 8px;
+}
+
+.event-student-actions p {
+  color: #817b91;
+  font-size: 13px;
+}
+
+.event-action-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.register-event-btn,
+.feedback-event-btn {
+  padding: 13px 20px;
+  border-radius: 9px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-event-btn {
+  background: #7560d8;
+  color: white;
+  border: none;
+}
+
+.register-event-btn:hover {
+  background: #5942b6;
+  transform: translateY(-2px);
+}
+
+.feedback-event-btn {
+  background: white;
+  color: #7056cc;
+  border: 1px solid #dcd2ff;
+}
+
+.feedback-event-btn:hover {
+  background: #eeeaff;
+}
+
+/* ORGANIZER REGISTRATIONS */
+.organizer-registrations-section {
+  background: white;
+  margin-top: 28px;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 5px 22px rgba(50, 40, 79, 0.05);
+}
+
+.registration-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.registration-heading h2 {
+  font-size: 23px;
+  margin: 10px 0;
+}
+
+.registration-heading p {
+  color: #9690a5;
+  font-size: 13px;
+}
+
+.registration-count-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: #eeeaff;
+  padding: 15px 20px;
+  border-radius: 12px;
+}
+
+.registration-count-card > span {
+  font-size: 28px;
+}
+
+.registration-count-card p {
+  margin: 0;
+  font-size: 11px;
+  color: #817b91;
+}
+
+.registration-count-card h2 {
+  margin: 5px 0 0;
+  color: #7056cc;
+}
+
+/* TABLE */
+.registration-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #eeeaf7;
+  border-radius: 12px;
+}
+
+.event-registration-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 750px;
+}
+
+.event-registration-table th {
+  background: #eeeaff;
+  color: #57449b;
+  padding: 16px;
+  text-align: left;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.event-registration-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f0edf7;
+  font-size: 13px;
+  color: #686176;
+}
+
+.event-registration-table tbody tr:hover {
+  background: #faf9ff;
+}
+
+.event-registration-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.registration-student-name {
+  font-weight: bold;
+  color: #40345f !important;
+}
+
+/* EMPTY STATE */
+.registration-empty {
+  text-align: center;
+  padding: 45px 15px;
+  background: #faf9ff;
+  border-radius: 12px;
+}
+
+.registration-empty span {
+  font-size: 40px;
+}
+
+.registration-empty h3 {
+  margin: 12px 0;
+}
+
+.registration-empty p {
+  color: #9690a5;
+  font-size: 13px;
+}
+
+.registration-message {
+  padding: 20px;
+  background: #faf9ff;
+  border-radius: 10px;
+  color: #7056cc;
+}
+
+.registration-error {
+  color: #c0394d;
+  background: #fff0f1;
+}
+
+/* LOADING AND ERROR */
+.event-status {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #7056cc;
+  text-align: center;
+  padding: 20px;
+}
+
+.event-status button {
+  background: #7560d8;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.error-status {
+  color: #c0394d;
+}
+
+.event-loader {
+  width: 38px;
+  height: 38px;
+  border: 4px solid #eeeaff;
+  border-top-color: #7560d8;
+  border-radius: 50%;
+  animation: event-spin 0.8s linear infinite;
+}
+
+@keyframes event-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .event-detail-page {
+    padding: 16px;
+  }
+
+  .event-detail-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .event-banner {
+    height: 250px;
+  }
+
+  .event-banner-overlay {
+    padding: 20px;
+  }
+
+  .event-banner-overlay h2 {
+    font-size: 24px;
+  }
+
+  .event-main-content {
+    padding: 20px;
+  }
+
+  .event-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-student-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .registration-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .event-title-row h2 {
+    font-size: 21px;
+  }
+
+  .event-action-buttons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .register-event-btn,
+  .feedback-event-btn {
+    width: 100%;
+  }
+
+  .organizer-registrations-section {
+    padding: 17px;
+  }
+
+  .event-detail-header h1 {
+    font-size: 22px;
+  }
+}
+
+/* =================================
+   ROLE-BASED EVENT DETAILS THEMES
+================================= */
+
+/* Student theme */
+.event-detail-page.student-theme {
+  --event-primary: #8065D9;
+  --event-light: #EEE9FF;
+  --event-background: #F8F7FF;
+  --event-border: #E5DDFB;
+
+  background: var(--event-background);
+}
+
+/* Organizer theme */
+.event-detail-page.organizer-theme {
+  --event-primary: #F97316;
+  --event-light: #FFF0E2;
+  --event-background: #FFF7ED;
+  --event-border: #FED7AA;
+
+  background: var(--event-background);
+}
+
+/* Header */
+.event-detail-page.organizer-theme .event-header-tag,
+.event-detail-page.organizer-theme .event-category,
+.event-detail-page.organizer-theme .registration-tag {
+  color: #C2410C;
+}
+
+/* Event headings */
+.event-detail-page.organizer-theme .event-detail-header h1,
+.event-detail-page.organizer-theme .event-title-row h2,
+.event-detail-page.organizer-theme .registration-heading h2 {
+  color: #9A3412;
+}
+
+/* Event information cards */
+.event-detail-page.organizer-theme .event-info-card {
+  border-color: var(--event-border);
+}
+
+.event-detail-page.organizer-theme .event-info-icon {
+  background: var(--event-light);
+}
+
+/* Organizer registration section */
+.event-detail-page.organizer-theme .organizer-registrations-section {
+  border-color: var(--event-border);
+}
+
+.event-detail-page.organizer-theme .registration-count-card {
+  background: var(--event-light);
+  border-color: var(--event-border);
+}
+
+.event-detail-page.organizer-theme .registration-count-card span,
+.event-detail-page.organizer-theme .registration-count-card h2 {
+  color: #C2410C;
+}
+
+/* Registration table */
+.event-detail-page.organizer-theme .event-registration-table th {
+  background: #FFF0E2;
+  color: #9A3412;
+}
+
+.event-detail-page.organizer-theme .event-registration-table tr:hover {
+  background: #FFFAF5;
+}
+
+/* Organizer back button */
+.event-detail-page.organizer-theme .event-back-btn {
+  border-color: #F97316;
+  color: #C2410C;
+}
+
+.event-detail-page.organizer-theme .event-back-btn:hover {
+  background: #FFF0E2;
+}
+

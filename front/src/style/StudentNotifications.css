@@ -1,0 +1,263 @@
+
+.student-notifications-page {
+  max-width: 1100px;
+  margin: auto;
+  padding: 28px 20px;
+  color: #292344;
+}
+
+.student-notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.student-notifications-header h1 {
+  margin: 0 0 10px;
+  font-size: clamp(26px, 4vw, 34px);
+}
+
+.student-notifications-header p:last-child {
+  color: #77718b;
+  line-height: 1.6;
+}
+
+.student-unread-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px;
+  background: #eee8ff;
+  border-radius: 16px;
+}
+
+.student-bell {
+  font-size: 28px;
+}
+
+.student-unread-card strong,
+.student-unread-card span:last-child {
+  display: block;
+}
+
+.student-unread-card strong {
+  font-size: 25px;
+}
+
+.student-unread-card span:last-child {
+  color: #716982;
+  font-size: 13px;
+}
+
+.student-notification-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.student-notification-toolbar h2 {
+  margin: 0 0 6px;
+  font-size: 21px;
+}
+
+.student-notification-toolbar span {
+  color: #827b94;
+  font-size: 13px;
+}
+
+.student-notification-toolbar select {
+  padding: 10px 12px;
+  border: 1px solid #ded7ec;
+  border-radius: 9px;
+  background: white;
+  color: #292344;
+}
+
+.student-notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.student-notification-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px;
+  background: white;
+  border: 1px solid #e8e2f3;
+  border-radius: 15px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.student-notification-card:hover {
+  box-shadow: 0 7px 22px rgba(70, 48, 120, 0.07);
+}
+
+.student-notification-card.is-unread {
+  background: #fbf9ff;
+  border-left: 4px solid #8064c8;
+}
+
+.student-notification-card.is-read {
+  opacity: 0.85;
+}
+
+.student-notification-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #eee8ff;
+  color: #6d50b8;
+  font-size: 20px;
+}
+
+.student-notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-notification-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.student-notification-title-row h3 {
+  margin: 0;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.unread-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #8064c8;
+}
+
+.student-notification-message {
+  margin: 10px 0;
+  color: #6f687f;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.student-notification-event {
+  margin: 12px 0;
+  padding: 10px 12px;
+  background: #f4f0ff;
+  border-radius: 8px;
+  color: #5c4b88;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.student-notification-date {
+  color: #8b849b;
+  font-size: 12px;
+}
+
+.mark-notification-read {
+  flex-shrink: 0;
+  padding: 9px 12px;
+  border: 1px solid #d7c9f5;
+  border-radius: 8px;
+  background: white;
+  color: #6d50b8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mark-notification-read:hover {
+  background: #eee8ff;
+}
+
+.student-notification-empty,
+.student-notification-state {
+  padding: 48px 20px;
+  text-align: center;
+  color: #77718b;
+}
+
+.student-notification-empty {
+  border: 1px dashed #dcd3ef;
+  border-radius: 16px;
+  background: #fcfbff;
+}
+
+.student-notification-empty > span {
+  font-size: 36px;
+}
+
+.student-notification-empty h3 {
+  color: #292344;
+}
+
+.student-notification-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  background: #fff0f0;
+  color: #a52a2a;
+}
+
+.student-notification-error button {
+  padding: 8px 12px;
+  border: 1px solid #e6bcbc;
+  border-radius: 7px;
+  background: white;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .student-notifications-page {
+    padding: 20px 12px;
+  }
+
+  .student-notifications-header {
+    align-items: flex-start;
+  }
+
+  .student-unread-card {
+    padding: 12px;
+  }
+
+  .student-notification-card {
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+
+  .mark-notification-read {
+    margin-left: 58px;
+  }
+}
+
+@media (max-width: 460px) {
+  .student-notifications-header {
+    flex-direction: column;
+  }
+
+  .student-notification-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .student-notification-toolbar select {
+    width: 100%;
+  }
+}

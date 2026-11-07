@@ -8,7 +8,15 @@ const signup = async (req, res) => {
         const { name, email, password, role } = req.body;
         //validation
         if (!name || !email || !password || !role) {
-            console.log("all fields are require");
+              return res.status(400).json({
+             message: "All fields are required"
+    });
+        }
+        //check role
+        if( !["student" ,"organizer"].includes(role)){
+              return res.status(400).json({
+                message: "Invalid role"
+            });
         }
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -22,7 +30,7 @@ const signup = async (req, res) => {
         const user = await User.create({
             name,
             email,
-            role,
+            role:role || "student",
             password: hashedPass
         })
         console.log("signup successfully");
@@ -32,6 +40,7 @@ const signup = async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
+                role:user.role,
             }
         });
 
@@ -103,6 +112,10 @@ const signin = async (req, res) => {
 const logout = async (req, res) => {
     try {
         // await User.findByIdAndDelete
+        res.clearCookie("token");
+        res.status(200).json({
+            message: "logout successfully",
+        })
 
     } catch (error) {
         res.status(500).json({
@@ -112,4 +125,20 @@ const logout = async (req, res) => {
 
     }
 }
-export { signup, signin };
+//to check cookie 
+
+const getMe = async (req, res) => {
+  try {
+    res.status(200).json({
+      message: "user fetched successfully",
+      user: req.user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+
+export { signup, signin ,logout,getMe};

@@ -1,0 +1,295 @@
+
+/* =====================================
+   COMMON EMS LAYOUT
+===================================== */
+
+.ems-layout {
+  min-height: 100vh;
+  background: #f8f7ff;
+  transition: background 0.3s ease;
+}
+
+/* Sidebar */
+.ems-layout .MuiDrawer-paper {
+  background: #ffffff !important;
+  border-right: 1px solid #eeeaf7 !important;
+  transition: all 0.3s ease;
+}
+
+/* Sidebar navigation spacing */
+.ems-layout .MuiList-root {
+  padding-top: 16px;
+}
+
+/* Navigation icons */
+.ems-layout .MuiListItemIcon-root {
+  font-size: 22px;
+  transition: color 0.25s ease;
+}
+
+/* Navigation items */
+.ems-layout .MuiListItemButton-root {
+  min-height: 48px;
+  transition: all 0.25s ease;
+}
+
+/* Active navigation item */
+.ems-layout .Mui-selected {
+  position: relative;
+}
+
+/* Sidebar user avatar */
+.ems-layout .sidebar-avatar {
+  font-weight: 700;
+  transition: background 0.25s ease;
+}
+
+/* Sidebar profile details */
+.ems-layout .sidebar-user-name {
+  font-weight: 600;
+}
+
+.ems-layout .sidebar-user-email {
+  font-size: 12px;
+  color: #888;
+}
+
+.ems-layout .sidebar-user-role {
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+/* Page content */
+.ems-page-content {
+  min-height: 100vh;
+  transition: background 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .ems-page-content {
+    padding: 0;
+  }
+}
+
+
+/* =====================================
+   ORGANIZER ORANGE THEME
+===================================== */
+
+.organizer-layout {
+  --sidebar-primary: #f47b20;
+  --sidebar-light: #ffead8;
+  --sidebar-dark: #d85e0b;
+  --sidebar-hover: #fff1e5;
+  --sidebar-border: #fce3d0;
+
+  background: #fffaf5;
+}
+
+.organizer-layout .ems-page-content {
+  background: #fffaf5;
+}
+
+/* Organizer sidebar */
+.organizer-layout .MuiDrawer-paper {
+  background: #ffffff !important;
+  border-right: 1px solid var(--sidebar-border) !important;
+}
+
+/* Organizer hover */
+.organizer-layout .MuiListItemButton-root:hover {
+  background: var(--sidebar-hover) !important;
+  color: var(--sidebar-dark);
+}
+
+/* Organizer active navigation */
+.organizer-layout .MuiListItemButton-root.Mui-selected {
+  background: var(--sidebar-light) !important;
+  color: var(--sidebar-dark) !important;
+  font-weight: 600;
+}
+
+.organizer-layout .MuiListItemButton-root.Mui-selected
+.MuiListItemIcon-root {
+  color: var(--sidebar-dark) !important;
+}
+
+/* Organizer navigation icons */
+.organizer-layout .MuiListItemIcon-root {
+  color: #a87955;
+}
+
+/* Organizer sidebar headers */
+.organizer-layout .MuiListSubheader-root {
+  color: var(--sidebar-dark);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Organizer branding icon */
+.organizer-layout .MuiDrawer-paper svg {
+  transition: color 0.25s ease;
+}
+
+/* Organizer profile */
+.organizer-layout .sidebar-avatar {
+  background: #f47b20;
+  color: #ffffff;
+}
+
+.organizer-layout .sidebar-user-role {
+  background: #ffead8;
+  color: #d85e0b;
+}
+
+
+/* =====================================
+   STUDENT BLUE / LAVENDER THEME
+===================================== */
+
+.student-layout {
+  --sidebar-primary: #8065d9;
+  --sidebar-light: #eee9ff;
+  --sidebar-dark: #6245bd;
+  --sidebar-hover: #f1edff;
+  --sidebar-border: #eeeaf7;
+
+  background: #f8f7ff;
+}
+
+.student-layout .ems-page-content {
+  background: #f8f7ff;
+}
+
+/* Student sidebar */
+.student-layout .MuiDrawer-paper {
+  background: #ffffff !important;
+  border-right: 1px solid var(--sidebar-border) !important;
+}
+
+/* Student hover */
+.student-layout .MuiListItemButton-root:hover {
+  background: var(--sidebar-hover) !important;
+  color: var(--sidebar-dark);
+}
+
+/* Student active navigation */
+.student-layout .MuiListItemButton-root.Mui-selected {
+  background: var(--sidebar-light) !important;
+  color: var(--sidebar-dark) !important;
+  font-weight: 600;
+}
+
+.student-layout .MuiListItemButton-root.Mui-selected
+.MuiListItemIcon-root {
+  color: var(--sidebar-dark) !important;
+}
+
+/* Student navigation icons */
+.student-layout .MuiListItemIcon-root {
+  color: #77728b;
+}
+
+/* Student sidebar headers */
+.student-layout .MuiListSubheader-root {
+  color: var(--sidebar-dark);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Student profile */
+.student-layout .sidebar-avatar {
+  background: #8065d9;
+  color: #ffffff;
+}
+
+.student-layout .sidebar-user-role {
+  background: #eee9ff;
+  color: #6245bd;
+}
+
+/* =================================
+   ROLE BASED SIDEBAR THEMES
+================================= */
+
+/* Organizer */
+.ems-layout.organizer-theme {
+  --sidebar-accent: #F97316;
+  --sidebar-light: #FFF7ED;
+  --sidebar-hover: #FFEDD5;
+  --sidebar-dark: #C2410C;
+}
+
+/* Student */
+.ems-layout.student-theme {
+  --sidebar-accent: #8065D9;
+  --sidebar-light: #F8F7FF;
+  --sidebar-hover: #EEE9FF;
+  --sidebar-dark: #6245BD;
+}
+
+/* Sidebar */
+.ems-layout .MuiDrawer-paper {
+  background: #ffffff !important;
+  border-right: 1px solid #eeeaf7 !important;
+}
+
+/* Navigation hover */
+.ems-layout .MuiListItemButton:hover {
+  background-color: var(--sidebar-hover) !important;
+  color: var(--sidebar-dark) !important;
+}
+
+/* Active navigation */
+.ems-layout .MuiListItemButton.Mui-selected {
+  background-color: var(--sidebar-light) !important;
+  color: var(--sidebar-dark) !important;
+}
+
+/* Active navigation icon */
+.ems-layout .MuiListItemButton.Mui-selected
+.MuiListItemIcon-root {
+  color: var(--sidebar-accent) !important;
+}
+
+/* Sidebar user footer */
+.ems-layout .sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  margin: 10px;
+  background: var(--sidebar-light);
+  border-radius: 13px;
+}
+
+.ems-layout .sidebar-user-details {
+  min-width: 0;
+}
+
+.ems-layout .sidebar-user-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #292524;
+}
+
+.ems-layout .sidebar-user-email {
+  font-size: 11px;
+  color: #78716c;
+  overflow-wrap: anywhere;
+}
+
+.ems-layout .sidebar-avatar {
+  font-weight: 800;
+}
+
+/* Main content */
+.ems-layout .ems-page-content {
+  min-height: 100%;
+}
+.public-layout {
+  min-height: 100vh;
+  width: 100%;
+  background: #ffffff;
+}

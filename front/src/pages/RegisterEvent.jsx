@@ -1,133 +1,240 @@
-import React ,{useState}from 'react'
-import ApiClient from '../apiClient/Interceptor';
-import { useNavigate, useParams } from 'react-router-dom';
+
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import ApiClient from "../apiClient/Interceptor";
+import { useNavigate, useParams } from "react-router-dom";
+import "../style/RegisterEvent.css";
 
 const RegisterEvent = () => {
-    const {id} = useParams();
-    const navigate =useNavigate();
-    const [formData, setFormData] = useState({
-        name: "",
-        className: "",
-        universityRollno: "",
-        email: "",
-        phone: "",
-        dept: "",
-    })
-    const [loading, setLoading] = useState(false);
-  
-    const handleChange=(e)=>{
-        setFormData({
-            ...formData,
-            [e.target.name]:e.target.value
-    })
-        }
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const registerHandle= async(e)=>{
-            e.preventDefault();
-        try{
-            setLoading(true);
-            const response=await ApiClient.post(`register/register/${id}`,formData);
-            console.log("Registration:", response.data);
-            alert("registered successfully");
-            navigate("/");
-        }catch(error){
-            console.error(
-        "Registration error:",
-        error.response?.data?.message || error.message
-      );
+  const [formData, setFormData] = useState({
+    name: "",
+    className: "",
+    universityRollno: "",
+    email: "",
+    phone: "",
+    dept: "",
+  });
 
-      alert(
-        error.response?.data?.message ||
-          "Registration failed"
-      );
-        }finally {
-      setLoading(false);
-    }
-    }
-    return (
-        <div className='register-page'>
-            <h1>Event Registration</h1>
-            <form onSubmit={registerHandle}>
-                <div>
-                    <label>Name</label>
+  const [loading, setLoading] = useState(false);
 
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Enter your name"
-                    />
-                </div>
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-     
-                <div>
-                    <label>Class</label>
+  const registerHandle = async (e) => {
+  e.preventDefault();
 
-                    <input
-                        type="text"
-                        name="className"
-                        value={formData.className}
-                        onChange={handleChange}
-                        placeholder="Enter your class"
-                    />
-                </div>
+  try {
+    setLoading(true);
 
-                <div>
-                    <label>University Roll Number</label>
+    const response = await ApiClient.post(
+      `/register/register/${id}`,
+      formData
+    );
 
-                    <input
-                        type="text"
-                        name="universityRollno"
-                        value={formData.universityRollno}
-                        onChange={handleChange}
-                        placeholder="Enter university roll number"
-                    />
-                </div>
+    console.log("Registration:", response.data);
 
-                <div>
-                    <label>Email</label>
+    toast.success("Registered successfully!");
 
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Enter your email"
-                    />
-                </div>
+    setFormData({
+      name: "",
+      className: "",
+      universityRollno: "",
+      email: "",
+      phone: "",
+      dept: "",
+    });
 
-                <div>
-                    <label>Phone</label>
+    // Navigate after showing success toast
+    setTimeout(() => {
+      navigate("/");
+    }, 1500);
 
-                    <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="Enter phone number"
-                    />
-                </div>
+  } catch (error) {
+    console.error(
+      "Registration error:",
+      error.response?.data?.message || error.message
+    );
 
-                <div>
-                    <label>Department</label>
+    const errorMessage =
+      error.response?.data?.message ||
+      "Registration failed. Please try again.";
 
-                    <input
-                        type="text"
-                        name="dept"
-                        value={formData.dept}
-                        onChange={handleChange}
-                        placeholder="Enter your department"
-                    />
-                </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? "Registering...":"Register"}
-                </button>
+    toast.error(errorMessage);
 
-            </form>
+  } finally {
+    setLoading(false);
+  }
+};
 
+  return (
+    <div className="register-page">
+
+      {/* HEADER */}
+      <div className="register-hero">
+        <div>
+          <span className="register-tag">
+            STUDENT EVENT PORTAL
+          </span>
+
+          <h1>Event Registration 📝</h1>
+
+          <p>
+            You're one step closer to an exciting experience!
+            Fill in your details to register for this event.
+          </p>
         </div>
-    )
-}
 
-export default RegisterEvent
+        <div className="register-hero-icon">🎓</div>
+      </div>
+
+      {/* REGISTRATION FORM */}
+      <div className="register-form-container">
+
+        <div className="register-form-heading">
+          <div className="register-form-icon">📋</div>
+
+          <div>
+            <h2>Student Information</h2>
+            <p>Please provide your correct details below.</p>
+          </div>
+        </div>
+
+        <form onSubmit={registerHandle}>
+
+          <div className="register-form-grid">
+
+            {/* NAME */}
+            <div className="register-input-group">
+              <label htmlFor="name">Full Name *</label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            {/* CLASS */}
+            <div className="register-input-group">
+              <label htmlFor="className">Class *</label>
+              <input
+                id="className"
+                type="text"
+                name="className"
+                value={formData.className}
+                onChange={handleChange}
+                placeholder="e.g. B.Tech 4th Year"
+                required
+              />
+            </div>
+
+            {/* ROLL NUMBER */}
+            <div className="register-input-group">
+              <label htmlFor="universityRollno">
+                University Roll Number *
+              </label>
+              <input
+                id="universityRollno"
+                type="text"
+                name="universityRollno"
+                value={formData.universityRollno}
+                onChange={handleChange}
+                placeholder="Enter your roll number"
+                required
+              />
+            </div>
+
+            {/* EMAIL */}
+            <div className="register-input-group">
+              <label htmlFor="email">Email Address *</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            {/* PHONE */}
+            <div className="register-input-group">
+              <label htmlFor="phone">Phone Number *</label>
+              <input
+                id="phone"
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Enter phone number"
+                pattern="[0-9]{10}"
+                title="Enter a valid 10-digit phone number"
+                maxLength={10}
+                required
+              />
+            </div>
+
+            {/* DEPARTMENT */}
+            <div className="register-input-group">
+              <label htmlFor="dept">Department *</label>
+              <input
+                id="dept"
+                type="text"
+                name="dept"
+                value={formData.dept}
+                onChange={handleChange}
+                placeholder="Enter your department"
+                required
+              />
+            </div>
+
+          </div>
+
+          <div className="register-note">
+            <span>🔒</span>
+            <p>
+              Please ensure all information is correct before
+              submitting your registration.
+            </p>
+          </div>
+
+          <div className="register-form-actions">
+
+            <button
+              type="button"
+              className="register-cancel-btn"
+              onClick={() => navigate(-1)}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="register-submit-btn"
+              disabled={loading}
+            >
+              {loading ? "Registering..." : "Complete Registration →"}
+            </button>
+
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  );
+};
+
+export default RegisterEvent;
