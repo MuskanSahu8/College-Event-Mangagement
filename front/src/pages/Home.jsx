@@ -10,7 +10,7 @@ import {
   Menu,
 } from "@mui/icons-material";
 
-import "../style/home.css";
+import "../style/Home.css";
 
 const Home = () => {
   return (
