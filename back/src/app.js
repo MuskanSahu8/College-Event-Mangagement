@@ -17,7 +17,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin:"https://college-event-mangagement-gmq2t92tw-a-352e.vercel.app/",
     credentials: true
 }));
 
