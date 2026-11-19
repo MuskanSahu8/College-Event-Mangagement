@@ -11,4 +11,7 @@ connectDB()
             console.log(`running on http://localhost:${process.env.PORT}`);
         });
     })
-    .catch(console.error);
+    .catch((error) => {
+        console.error("Database connection failed:", error);
+        process.exit(1);
+    });

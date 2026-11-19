@@ -21,8 +21,11 @@ const userSchema=mongoose.Schema({
         type:String,
         enum:["student","organizer","admin"],
         default:"student"
-
-    }
+    },
+    refreshTokenHash: {
+    type: String,
+    default: null
+}
 },{timeStamps:true});
 const User=mongoose.model("User",userSchema);
 export {User};
