@@ -103,6 +103,7 @@ const signup = async (req, res) => {
 };
 
 // Signin
+
 const signin = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -134,92 +135,41 @@ const signin = async (req, res) => {
             });
         }
 
+        // Generate tokens
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
 
-        // Save only the hashed refresh token
+        // Save hashed refresh token
         user.refreshTokenHash = hashToken(refreshToken);
         await user.save();
 
+        // Set access token cookie
         res.cookie("accessToken", accessToken, {
             ...cookieOptions,
             maxAge: ACCESS_TOKEN_EXPIRY
         });
 
-        res.cookie("refreshToken", newRefreshToken, {
+        // Set refresh token cookie
+        res.cookie("refreshToken", refreshToken, {
             ...cookieOptions,
             maxAge: REFRESH_TOKEN_EXPIRY
         });
 
         return res.status(200).json({
-            message: "Token refreshed successfully",
-            accessToken: newAccessToken
+            message: "Signin successful",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
         });
 
     } catch (error) {
+        console.error("Signin Controller Error:", error);
+
         return res.status(500).json({
             message: "Signin failed"
-        });
-    }
-};
-
-// Refresh access token
-const refreshAccessToken = async (req, res) => {
-    try {
-        const refreshToken = req.cookies?.refreshToken;
-
-        if (!refreshToken) {
-            return res.status(401).json({
-                message: "Refresh token missing. Please sign in again."
-            });
-        }
-
-        const decoded = jwt.verify(
-            refreshToken,
-            process.env.REFRESH_TOKEN_SECRET
-        );
-
-        const user = await User.findById(decoded.id);
-
-        if (!user || !user.refreshTokenHash) {
-            return res.status(401).json({
-                message: "Invalid refresh session. Please sign in again."
-            });
-        }
-
-        // Check whether this refresh token belongs to the user's session
-        const incomingHash = hashToken(refreshToken);
-
-        if (incomingHash !== user.refreshTokenHash) {
-            return res.status(401).json({
-                message: "Refresh token invalid. Please sign in again."
-            });
-        }
-
-        // Rotate both tokens
-        const newAccessToken = generateAccessToken(user);
-        const newRefreshToken = generateRefreshToken(user);
-
-        user.refreshTokenHash = hashToken(newRefreshToken);
-        await user.save();
-
-        res.cookie("accessToken", newAccessToken, {
-            ...cookieOptions,
-            maxAge: ACCESS_TOKEN_EXPIRY
-        });
-
-        res.cookie("refreshToken", newRefreshToken, {
-            ...cookieOptions,
-            maxAge: REFRESH_TOKEN_EXPIRY
-        });
-
-        return res.status(200).json({
-            message: "Token refreshed successfully"
-        });
-
-    } catch (error) {
-        return res.status(401).json({
-            message: "Refresh token expired or invalid. Please sign in again."
         });
     }
 };
