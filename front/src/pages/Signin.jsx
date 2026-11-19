@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import ApiClient from "../apiClient/Interceptor.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
@@ -14,7 +15,7 @@ const Signin = () => {
 
     const [formData, setFormData] = useState({
         email: "",
-        password: "",
+        password: ""
     });
 
     const [loading, setLoading] = useState(false);
@@ -23,14 +24,15 @@ const Signin = () => {
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { email, password } = formData;
+        const email = formData.email.trim().toLowerCase();
+        const password = formData.password;
 
         if (!email || !password) {
             toast.warning("All fields are required");
@@ -42,26 +44,26 @@ const Signin = () => {
 
             const response = await ApiClient.post(
                 "/user/signin",
-                formData
+                { email, password }
             );
 
-            const loggedInUser = response.data.user;
-            const accessToken = response.data.accessToken;
+            const { user, accessToken } = response.data;
 
-            if (!loggedInUser || !accessToken) {
-                toast.error("Authentication information is missing");
-                return;
+            if (!user || !accessToken) {
+                throw new Error(
+                    "User information or access token missing"
+                );
             }
 
             // Store user and access token
-            signin(loggedInUser, accessToken);
+            signin(user, accessToken);
 
             toast.success("Signin successful! Welcome back.");
 
             // Role-based navigation
-            if (loggedInUser.role === "organizer") {
+            if (user.role === "organizer") {
                 navigate("/org-dashboard", { replace: true });
-            } else if (loggedInUser.role === "student") {
+            } else if (user.role === "student") {
                 navigate("/student-dashboard", { replace: true });
             } else {
                 navigate("/", { replace: true });
@@ -75,7 +77,7 @@ const Signin = () => {
 
             toast.error(
                 error.response?.data?.message ||
-                "Invalid email or password. Please try again."
+                "Unable to sign in. Please try again."
             );
 
         } finally {
@@ -92,10 +94,16 @@ const Signin = () => {
                     <p>Sign in to your CampusConnect account</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="signin-form">
+                <form
+                    onSubmit={handleSubmit}
+                    className="signin-form"
+                >
 
                     <div className="signin-field">
-                        <label htmlFor="email">Email Address</label>
+                        <label htmlFor="email">
+                            Email Address
+                        </label>
+
                         <input
                             id="email"
                             type="email"
@@ -109,7 +117,9 @@ const Signin = () => {
                     </div>
 
                     <div className="signin-field">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">
+                            Password
+                        </label>
 
                         <div className="password-input-wrapper">
                             <input
@@ -127,7 +137,7 @@ const Signin = () => {
                                 type="button"
                                 className="password-toggle"
                                 onClick={() =>
-                                    setShowPassword((prev) => !prev)
+                                    setShowPassword(prev => !prev)
                                 }
                                 aria-label={
                                     showPassword
@@ -137,7 +147,8 @@ const Signin = () => {
                             >
                                 {showPassword
                                     ? <VisibilityOff />
-                                    : <Visibility />}
+                                    : <Visibility />
+                                }
                             </IconButton>
                         </div>
                     </div>
@@ -155,7 +166,9 @@ const Signin = () => {
                 <div className="signin-footer">
                     <p>
                         Don't have an account?{" "}
-                        <Link to="/signup">Create Account</Link>
+                        <Link to="/signup">
+                            Create Account
+                        </Link>
                     </p>
                 </div>
 

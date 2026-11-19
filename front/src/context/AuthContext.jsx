@@ -1,47 +1,92 @@
 
-import { createContext, useContext, useEffect, useState } from "react";
-import ApiClient, { setAccessToken } from "../apiClient/Interceptor";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState
+} from "react";
+
+import ApiClient, {
+    setAccessToken
+} from "../apiClient/Interceptor";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Check authentication when the application loads
+    // Check authentication when application loads
     useEffect(() => {
+
         const checkAuth = async () => {
             try {
-                // Axios interceptor will refresh the token if necessary
                 const response = await ApiClient.get("/user/profile");
 
                 setUser(response.data.user);
+
             } catch (error) {
-                setUser(null);
-                setAccessToken(null);
+
+                // If profile fails, try refreshing session
+                try {
+                    const refreshResponse = await ApiClient.post(
+                        "/user/refresh"
+                    );
+
+                    const newToken =
+                        refreshResponse.data.accessToken;
+
+                    if (!newToken) {
+                        throw new Error("Access token missing");
+                    }
+
+                    setAccessToken(newToken);
+
+                    const profileResponse =
+                        await ApiClient.get("/user/profile");
+
+                    setUser(profileResponse.data.user);
+
+                } catch (refreshError) {
+
+                    setAccessToken(null);
+                    setUser(null);
+
+                }
+
             } finally {
                 setLoading(false);
             }
         };
 
         checkAuth();
+
     }, []);
 
     const isAuthenticated = !!user;
 
-    // Store user and access token after signin
+    // Sign in
     const signin = (userData, token) => {
+
         setUser(userData);
-        setAccessToken(token);
+
+        if (token) {
+            setAccessToken(token);
+        }
     };
 
-    // Logout user
+    // Logout
     const signout = async () => {
+
         try {
             await ApiClient.post("/user/logout");
+
         } catch (error) {
-            console.log("Logout error:", error);
+            console.error("Logout error:", error);
+
         } finally {
+
             setAccessToken(null);
             setUser(null);
         }
@@ -55,7 +100,7 @@ export const AuthProvider = ({ children }) => {
                 isAuthenticated,
                 loading,
                 signin,
-                signout,
+                signout
             }}
         >
             {children}

@@ -18,10 +18,14 @@ const PORT =process.env.PORT;
 
 const app= express();
 //middleware
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://college-event-mangagement-sigma.vercel.app"
+];
+
 app.use(cors({
-    origin:["http://localhost:5173",
-    "https://college-event-mangagement-sigma.vercel.app"],
-    credentials:true
+    origin: allowedOrigins,
+    credentials: true
 }));
 app.use(cookieParser())
 app.use(express.json());

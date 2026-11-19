@@ -1,6 +1,6 @@
-import { User } from "../model/user.model.js";
 
-import jwt from "jsonwebtoken"
+import { User } from "../model/user.model.js";
+import jwt from "jsonwebtoken";
 
 const Auth = async (req, res, next) => {
     try {
@@ -9,6 +9,7 @@ const Auth = async (req, res, next) => {
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({
                 message: "Access token is required",
+                code: "TOKEN_MISSING",
             });
         }
 
@@ -17,27 +18,38 @@ const Auth = async (req, res, next) => {
         const decoded = jwt.verify(
             token,
             process.env.ACCESS_TOKEN_SECRET
-        )
-        //find actual user in db;
-        const user = await User.findById(decoded.id).select("-password -refreshTokenHash");
+        );
+
+        // Find the actual user in the database
+        const user = await User.findById(decoded.id)
+            .select("-password -refreshTokenHash");
+
         if (!user) {
             return res.status(401).json({
-                message: "User not found"
+                message: "User not found",
+                code: "USER_NOT_FOUND",
             });
         }
+
         req.user = user;
-        next();
-    }
-    catch (error) {
-        console.log("Auth ERROR:", error.name)
+
+        return next();
+
+    } catch (error) {
+        console.error("Auth Middleware Error:", error);
+
+        if (error.name === "TokenExpiredError") {
+            return res.status(401).json({
+                message: "Access token expired",
+                code: "ACCESS_TOKEN_EXPIRED",
+            });
+        }
+
         return res.status(401).json({
-            message: "Access token expired",
-            code: "ACCESS_TOKEN_EXPIRED",
-        })
+            message: "Invalid access token",
+            code: "INVALID_ACCESS_TOKEN",
+        });
     }
-    return res.status(401).json({
-        message: "Invalid access token",
-        code: "INVALID_ACCESS_TOKEN",
-    });
-}
+};
+
 export { Auth };
