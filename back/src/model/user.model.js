@@ -28,11 +28,6 @@ const userSchema = new mongoose.Schema(
             enum: ["student", "organizer", "admin"],
             default: "student",
         },
-
-        refreshTokenHash: {
-            type: String,
-            default: null,
-        },
     },
     { timestamps: true }
 );

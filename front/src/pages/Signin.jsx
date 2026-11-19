@@ -47,16 +47,15 @@ const Signin = () => {
                 { email, password }
             );
 
-            const { user, accessToken } = response.data;
+            const user = response.data.user;
 
-            if (!user || !accessToken) {
-                throw new Error(
-                    "User information or access token missing"
-                );
+            if (!user) {
+                throw new Error("User information missing");
             }
 
-            // Store user and access token
-            signin(user, accessToken);
+            // Store user information in AuthContext
+            // JWT is automatically stored in the HTTP-only cookie
+            signin(user);
 
             toast.success("Signin successful! Welcome back.");
 

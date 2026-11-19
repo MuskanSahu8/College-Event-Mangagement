@@ -6,9 +6,7 @@ import {
     useState
 } from "react";
 
-import ApiClient, {
-    setAccessToken
-} from "../apiClient/Interceptor";
+import ApiClient from "../apiClient/Interceptor";
 
 const AuthContext = createContext();
 
@@ -27,33 +25,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(response.data.user);
 
             } catch (error) {
-
-                // If profile fails, try refreshing session
-                try {
-                    const refreshResponse = await ApiClient.post(
-                        "/user/refresh"
-                    );
-
-                    const newToken =
-                        refreshResponse.data.accessToken;
-
-                    if (!newToken) {
-                        throw new Error("Access token missing");
-                    }
-
-                    setAccessToken(newToken);
-
-                    const profileResponse =
-                        await ApiClient.get("/user/profile");
-
-                    setUser(profileResponse.data.user);
-
-                } catch (refreshError) {
-
-                    setAccessToken(null);
-                    setUser(null);
-
-                }
+                setUser(null);
 
             } finally {
                 setLoading(false);
@@ -67,13 +39,8 @@ export const AuthProvider = ({ children }) => {
     const isAuthenticated = !!user;
 
     // Sign in
-    const signin = (userData, token) => {
-
+    const signin = (userData) => {
         setUser(userData);
-
-        if (token) {
-            setAccessToken(token);
-        }
     };
 
     // Logout
@@ -86,8 +53,6 @@ export const AuthProvider = ({ children }) => {
             console.error("Logout error:", error);
 
         } finally {
-
-            setAccessToken(null);
             setUser(null);
         }
     };

@@ -4,17 +4,18 @@ import jwt from "jsonwebtoken";
 
 const Auth = async (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
 
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        // Get JWT from HTTP-only cookie
+        const token = req.cookies?.accessToken;
+
+        if (!token) {
             return res.status(401).json({
-                message: "Access token is required",
+                message: "Please sign in to continue",
                 code: "TOKEN_MISSING",
             });
         }
 
-        const token = authHeader.split(" ")[1];
-
+        // Verify JWT
         const decoded = jwt.verify(
             token,
             process.env.ACCESS_TOKEN_SECRET
@@ -22,7 +23,7 @@ const Auth = async (req, res, next) => {
 
         // Find the actual user in the database
         const user = await User.findById(decoded.id)
-            .select("-password -refreshTokenHash");
+            .select("-password");
 
         if (!user) {
             return res.status(401).json({
@@ -31,23 +32,28 @@ const Auth = async (req, res, next) => {
             });
         }
 
+        // Attach user to request
         req.user = user;
 
         return next();
 
     } catch (error) {
-        console.error("Auth Middleware Error:", error);
+
+        console.error(
+            "Auth Middleware Error:",
+            error.message
+        );
 
         if (error.name === "TokenExpiredError") {
             return res.status(401).json({
-                message: "Access token expired",
-                code: "ACCESS_TOKEN_EXPIRED",
+                message: "Session expired. Please sign in again.",
+                code: "TOKEN_EXPIRED",
             });
         }
 
         return res.status(401).json({
-            message: "Invalid access token",
-            code: "INVALID_ACCESS_TOKEN",
+            message: "Invalid authentication token",
+            code: "INVALID_TOKEN",
         });
     }
 };

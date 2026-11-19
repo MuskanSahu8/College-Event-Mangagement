@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ApiClient from "../apiClient/Interceptor.js";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
@@ -30,9 +31,11 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { name, email, password, role } = formData;
+        const name = formData.name.trim();
+        const email = formData.email.trim().toLowerCase();
+        const password = formData.password;
+        const role = formData.role;
 
-        // Validation
         if (!name || !email || !password || !role) {
             toast.warning("All fields are required");
             return;
@@ -48,10 +51,10 @@ const Signup = () => {
 
             const response = await ApiClient.post(
                 "/user/signup",
-                formData
+                { name, email, password, role }
             );
 
-            console.log("Signup successful", response.data);
+            console.log("Signup successful:", response.data);
 
             toast.success(
                 "Account created successfully! Please sign in."
@@ -60,8 +63,8 @@ const Signup = () => {
             navigate("/signin", { replace: true });
 
         } catch (error) {
-            console.log(
-                "Signup failure",
+            console.error(
+                "Signup failure:",
                 error.response?.data || error.message
             );
 
@@ -134,7 +137,7 @@ const Signup = () => {
                                 type="button"
                                 className="password-toggle"
                                 onClick={() =>
-                                    setShowPassword((prev) => !prev)
+                                    setShowPassword(prev => !prev)
                                 }
                                 aria-label={
                                     showPassword
@@ -144,7 +147,8 @@ const Signup = () => {
                             >
                                 {showPassword
                                     ? <VisibilityOff />
-                                    : <Visibility />}
+                                    : <Visibility />
+                                }
                             </IconButton>
                         </div>
 
