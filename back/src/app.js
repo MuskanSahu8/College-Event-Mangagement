@@ -14,15 +14,10 @@ import committeeRouter from "./routes/committee.route.js";
 
 const app = express();
 
-// Allowed frontend origins
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://college-event-mangagement-sigma.vercel.app"
-];
 
 // CORS configuration
 app.use(cors({
-    origin: allowedOrigins,
+    origin:"https://college-event-mangagement-gmq2t92tw-a-352e.vercel.app/",
     credentials: true
 }));
 
