@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const ApiClient = axios.create({
-    baseURL:"https://college-event-mangagement.onrender.com/api",
+    baseURL:"http://localhost:3000/api",
     withCredentials: true,
     headers: {
         "Content-Type": "application/json"
