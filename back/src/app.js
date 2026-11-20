@@ -14,8 +14,6 @@ import committeeRouter from "./routes/committee.route.js";
 
 const app = express();
 
-
-// CORS configuration
 // CORS configuration
 app.use(cors({
     origin: [
