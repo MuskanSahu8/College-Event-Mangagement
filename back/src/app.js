@@ -17,7 +17,7 @@ const app = express();
 
 // CORS configuration
 // CORS configuration
-pp.use(cors({
+app.use(cors({
     origin: [
         "https://college-event-management-sigma.vercel.app",
         "http://localhost:5173"
