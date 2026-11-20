@@ -18,7 +18,7 @@ const app = express();
 // CORS configuration
 // CORS configuration
 app.use(cors({
-    origin:"https://college-event-mangagement-sigma.vercel.app",
+    origin:"https://college-event-mangagement-sigma.vercel.app/",
     credentials: true
 }));
 
