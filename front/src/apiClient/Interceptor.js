@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const ApiClient = axios.create({
-    baseURL: "https://college-event-mangagement.onrender.com/api",
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,
     headers: {
         "Content-Type": "application/json"
@@ -15,7 +15,6 @@ ApiClient.interceptors.response.use(
             "API Error:",
             error.response?.data || error.message
         );
-
         return Promise.reject(error);
     }
 );
