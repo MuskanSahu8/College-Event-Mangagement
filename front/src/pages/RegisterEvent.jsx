@@ -53,7 +53,7 @@ const RegisterEvent = () => {
 
     // Navigate after showing success toast
     setTimeout(() => {
-      navigate("/");
+      navigate("/student-dashboard");
     }, 1500);
 
   } catch (error) {
