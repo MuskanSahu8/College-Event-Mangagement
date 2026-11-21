@@ -265,68 +265,132 @@ const getEventById = async (req, res) => {
 
 
 // UPDATE EVENT
+
 const updateEvent = async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    const {
-      eventName,
-      about,
-      eventdate,
-      lastDate,
-      dept,
-      capacity
-    } = req.body;
-
-    if (capacity !== undefined && capacity !== "") {
-      const eventCapacity = Number(capacity);
-
-      if (!Number.isInteger(eventCapacity) || eventCapacity < 1) {
-        return res.status(400).json({
-          message: "Capacity must be a positive whole number",
+        // First, find the event
+        const event = await Event.findOne({
+            _id: id,
+            user: req.user._id,
         });
-      }
 
-      event.capacity = eventCapacity;
+        if (!event) {
+            return res.status(404).json({
+                message: "Event not found or you are not the owner",
+            });
+        }
+
+        const {
+            eventName,
+            about,
+            eventdate,
+            lastDate,
+            dept,
+            capacity,
+            venue,
+            startTime,
+            endTime,
+            committee,
+        } = req.body;
+
+        // Validate capacity
+        if (capacity !== undefined && capacity !== "") {
+            const eventCapacity = Number(capacity);
+
+            if (!Number.isInteger(eventCapacity) || eventCapacity < 1) {
+                return res.status(400).json({
+                    message: "Capacity must be a positive whole number",
+                });
+            }
+
+            event.capacity = eventCapacity;
+        }
+
+        // Validate event timings
+        const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+        if (startTime && !timePattern.test(startTime)) {
+            return res.status(400).json({
+                message: "Invalid start time",
+            });
+        }
+
+        if (endTime && !timePattern.test(endTime)) {
+            return res.status(400).json({
+                message: "Invalid end time",
+            });
+        }
+
+        const finalStartTime = startTime ?? event.startTime;
+        const finalEndTime = endTime ?? event.endTime;
+
+        if (
+            finalStartTime &&
+            finalEndTime &&
+            finalStartTime >= finalEndTime
+        ) {
+            return res.status(400).json({
+                message: "End time must be after start time",
+            });
+        }
+
+        // Validate committee if supplied
+        if (committee !== undefined) {
+            if (committee === "") {
+                event.committee = null;
+            } else {
+                const selectedCommittee = await Committee.findOne({
+                    _id: committee,
+                    isActive: true,
+                });
+
+                if (!selectedCommittee) {
+                    return res.status(400).json({
+                        message: "Selected committee does not exist or is inactive",
+                    });
+                }
+
+                event.committee = selectedCommittee._id;
+            }
+        }
+
+        // Update event details
+        if (eventName !== undefined) event.eventName = eventName;
+        if (about !== undefined) event.about = about;
+        if (eventdate !== undefined) event.eventdate = eventdate;
+        if (lastDate !== undefined) event.lastDate = lastDate;
+        if (dept !== undefined) event.dept = dept;
+        if (venue !== undefined) event.venue = venue;
+        if (startTime !== undefined) event.startTime = startTime;
+        if (endTime !== undefined) event.endTime = endTime;
+
+        // Upload replacement image if selected
+        if (req.file) {
+            const uploadedImage = await uploadToCloudinary(
+                req.file.buffer
+            );
+
+            event.image = uploadedImage.secure_url;
+        }
+
+        await event.save();
+
+        return res.status(200).json({
+            message: "Event updated successfully",
+            event,
+        });
+
+    } catch (error) {
+        console.error("UPDATE EVENT ERROR:", error);
+
+        return res.status(500).json({
+            message: "Update failure",
+            error: error.message,
+        });
     }
-    const event = await Event.findOne(
-      {
-        _id: id,
-        user: req.user._id,
-      });
-
-    if (!event) {
-      return res.status(404).json({
-        message: "Event not found or you are not the owner",
-      });
-    }
-    event.eventName = eventName;
-    event.about = about;
-    event.eventdate = eventdate;
-    event.lastDate = lastDate;
-    event.dept = dept;
-
-    if (req.file) {
-      const uploadedImage = await uploadToCloudinary(
-        req.file.buffer
-      );
-
-      event.image = uploadedImage.secure_url;
-    }
-    await event.save();
-
-    return res.status(200).json({
-      message: "event updated successfully",
-      event,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: "update failure",
-      error: error.message,
-    });
-  }
 };
-
 
 // DELETE EVENT
 const deleteEvent = async (req, res) => {

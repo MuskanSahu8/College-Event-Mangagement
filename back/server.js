@@ -15,3 +15,8 @@ connectDB()
         console.error("Database connection failed:", error);
         process.exit(1);
     });
+console.log("Cloudinary Variables:", {
+    cloudName: !!process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: !!process.env.CLOUDINARY_API_KEY,
+    apiSecret: !!process.env.CLOUDINARY_API_SECRET
+});
