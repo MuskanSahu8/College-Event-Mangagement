@@ -103,11 +103,11 @@ const GetNavigation = (user, isAuthenticated) => {
         title: "Committee Management",
         icon: <GroupsIcon />,
       },
-      {
-        segment: "send-notification",
-        title: "Send Notification",
-        icon: <NotificationsActiveIcon />,
-      },
+      // {
+      //   segment: "send-notification",
+      //   title: "Send Notification",
+      //   icon: <NotificationsActiveIcon />,
+      // },
       {
         kind: "divider",
       },
